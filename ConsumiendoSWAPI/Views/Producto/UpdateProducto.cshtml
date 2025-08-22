@@ -1,0 +1,95 @@
+﻿@model ServicioWebApiUser.Models.Producto
+
+@{
+    ViewData["Title"] = "UpdateProducto";
+}
+<link href="~/css/ActulizarProducto.css" rel="stylesheet"/>
+
+<h1 style="color:darkblue;font-size: 50px;">Actualizar Producto</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateProducto">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdProducto" class="control-label"></label>
+                <input asp-for="IdProducto" class="form-control" readonly/>
+                <span asp-validation-for="IdProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreProducto" class="control-label"></label>
+                <input asp-for="NombreProducto" class="form-control" />
+                <span asp-validation-for="NombreProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoProducto" class="control-label"></label>
+                <input asp-for="CodigoProducto" class="form-control" />
+                <span asp-validation-for="CodigoProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioProducto" class="control-label"></label>
+                <input asp-for="PrecioProducto" class="form-control" />
+                <span asp-validation-for="PrecioProducto" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group btn btn-primary" style="margin:5px">
+                <button type="submit" class="styled-button actualizar-button">
+                    <div class="text">
+                        <span>Actualizar</span>
+                        <span>Producto</span>
+                    </div>
+                    <div class="clone">
+                        <span>Actualizar</span>
+                        <span>Producto</span>
+                    </div>
+                    <svg stroke-width="2"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         class="h-6 w-6"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="20px">
+                        <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                              stroke-linejoin="round"
+                              stroke-linecap="round"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-action="Index" class="button-link">
+        <button class="styled-button return-button">
+            <div class="text">
+                <span>Regresar</span>
+                <span>al</span>
+                <span>Listado</span>
+            </div>
+            <div class="clone">
+                <span>Regresar</span>
+                <span>al</span>
+                <span>Listado</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

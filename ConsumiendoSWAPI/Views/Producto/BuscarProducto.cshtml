@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ServicioWebApiUser.DTOS.dtoPro>
+
+<h1 style="color:darkblue;font-size: 50px;">Búsqueda por Código del Producto</h1>
+<br />
+@* <p>
+    <a asp-controller="OrdenPedidoes" asp-action="AgregarPedidoVenta">Volver a Registrar el Pedido</a>
+</p> *@
+<br />
+<form asp-action="BuscarProducto" method="get">
+    <p>Seleccione el Código del Producto</p>
+    <select name="codigo" asp-items="ViewBag.producto">
+        <option value="">Seleccionar</option>
+    </select>
+    <input type="submit" value="Consultar" />
+</form>
+<br />
+<br />
+<table class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse;">
+    <thead class="bg-primary text-white fw-bold">
+        <tr>
+            <th>Id Producto</th>
+            <th>Nombre Producto</th>
+            <th>Código</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody style="background:#FFFFFF;">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.idProducto</td>
+                    <td>@item.nombreProducto</td>
+                    <td>@item.codigoProducto</td>
+                    <td>S/. @item.precioProducto</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No se encontraron resultados</td>
+            </tr>
+        }
+    </tbody>
+</table>

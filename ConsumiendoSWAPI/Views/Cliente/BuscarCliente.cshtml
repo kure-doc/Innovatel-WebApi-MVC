@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ServicioWebApiUser.DTOS.dtoCli>
+<link href="~/css/BuscarCliente.css" rel="stylesheet"/>
+<h1 style="color:darkblue;font-size: 60px;">Búsqueda del Cliente</h1>
+<br />
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-controller="OrdenPedidoes" asp-action="AgregarPedidoVenta" class="button-link">
+        <button class="styled-button return-button">
+            <div class="text">
+                <span>Registrar</span>
+                <span>Pedido</span>
+            </div>
+            <div class="clone">
+                <span>Registrar</span>
+                <span>Pedido</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+<br />
+<form asp-action="BuscarCliente" >
+    <p>Seleccione el ID del Cliente</p>
+    <select name="id" asp-items="ViewBag.cliente">
+        <option>Seleccionar</option>
+    </select>
+    <input type="submit" value="Consultar" />
+</form>
+
+<br />
+<br />
+<table class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse;">
+    <thead class="bg-primary text-white fw-bold">
+        <tr>
+            <th>Id Cliente</th>
+            <th>Nombre Cliente</th>
+            <th>Dirección Cliente</th>
+            <th>Teléfono Cliente</th>
+            <th>Correo Electrónico</th>
+        </tr>
+    </thead>
+    <tbody style="background:#FFFFFF;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.nombre</td>
+                <td>@item.dirreccion</td>
+                <td>@item.telefono</td>
+                <td>@item.email</td>
+            </tr>
+        }
+    </tbody>
+</table>

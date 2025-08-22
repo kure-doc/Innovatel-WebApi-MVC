@@ -1,0 +1,76 @@
+﻿body {
+    background: radial-gradient(circle, rgba(25,234,242,1) 0%, rgba(103,195,255,1) 51%, rgba(0,165,255,1) 100%);
+    background-size:cover;
+}
+
+.form-container {
+    width: 350px;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px 30px;
+    margin: auto;
+    margin-top: 15%;
+    backdrop-filter: blur(10px); /* Aplica el desenfoque de fondo */
+
+}
+.img {
+    text-align: center;
+}
+
+img {
+    width: 50%;
+}
+.title {
+    text-align: center;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    margin: 10px 0 30px 0;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 15px;
+}
+
+.input {
+    border-radius: 20px;
+    border: 1px solid #c0c0c0;
+    outline: 0 !important;
+    box-sizing: border-box;
+    padding: 12px 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    border-radius: 20px;
+    border: 1px solid #c0c0c0;
+    outline: 0 !important;
+    box-sizing: border-box;
+    padding: 12px 15px;
+    width: 100%;
+}
+
+.btn-primary {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 0 !important;
+    outline: 0 !important;
+    background: teal;
+    color: white;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+    .btn-primary:active {
+        box-shadow: none;
+    }

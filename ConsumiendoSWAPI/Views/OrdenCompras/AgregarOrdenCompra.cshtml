@@ -1,0 +1,162 @@
+﻿@model ServicioWebApiUser.Models.OrdenCompra
+
+@{
+    ViewData["Title"] = "AgregarOrdenCompra";
+}
+<link href="~/css/OrdenCompra.css" rel="stylesheet"/>
+<h1 style="color:darkblue;font-size: 50px;">Solicitar Orden de Compra</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarOrdenCompra">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdProducto" class="control-label">Nombre Producto</label>
+                <select asp-for="IdProducto" class="form-control" id="IdProducto">
+                    <option value="">Seleccionar</option>
+                    @foreach (var producto in ViewBag.Productos ?? new List<ServicioWebApiUser.DTOS.dtoProductoID>())
+                    {
+                        <option value="@producto.IdProducto">@producto.NombreProducto</option>
+                    }
+                </select>
+                <span asp-validation-for="IdProducto" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="NroCompra" class="control-label"></label>
+                <input asp-for="NroCompra" class="form-control" readonly />
+                <span asp-validation-for="NroCompra" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="NombreProveedor" class="control-label"></label>
+                <input asp-for="NombreProveedor" class="form-control" onkeypress="return check(event)" required/>
+                <span asp-validation-for="NombreProveedor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaCompra" class="control-label"></label>
+                <input asp-for="FechaCompra" id="FechaCompra" type="datetime" class="form-control" disabled />
+                <span asp-validation-for="FechaCompra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label"></label>
+                <input type="number" asp-for="Precio" id="Precio" class="form-control" onkeypress="return precio(event)" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input asp-for="Cantidad" id="Cantidad" class="form-control" onkeypress="return precio(event)" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalCompra" class="control-label"></label>
+                <input asp-for="TotalCompra" id="TotalCompra" class="form-control" disabled/>
+                <span asp-validation-for="TotalCompra" class="text-danger"></span>
+            </div>
+            <input asp-for="ConfirmarPedido" type="hidden" id="ConfirmarPedido" value="Pendiente Confirmar" />
+            <br />
+            <div class="form-group btn btn-primary" style="margin:5px">
+                <button class="styled-button register-button" type="submit">
+                    <div class="text">
+                        <span>Solicitar</span>
+                        <span>Compra</span>
+                    </div>
+                    <div class="clone">
+                        <span>Solicitar</span>
+                        <span>Compra</span>
+                    </div>
+                    <svg stroke-width="2"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         class="h-6 w-6"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="20px">
+                        <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                              stroke-linejoin="round"
+                              stroke-linecap="round"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-action="Index" class="button-link">
+        <button class="styled-button return-button">
+            <div class="text">
+                <span>Ver</span>
+                <span>Historial</span>
+                <span>Compras</span>
+            </div>
+            <div class="clone">
+                <span>Ver</span>
+                <span>Historial</span>
+                <span>Compras</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var today = new Date();
+            var day = String(today.getDate()).padStart(2, '0');
+            var month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var year = today.getFullYear();
+
+            var currentDate = day + '/' + month + '/' + year;
+            document.getElementById("FechaCompra").value = currentDate;
+
+            function updateTotal() {
+                var precio = parseFloat(document.getElementById("Precio").value) || 0;
+                var cantidad = parseFloat(document.getElementById("Cantidad").value) || 0;
+                var totalCompra = precio * cantidad;
+                document.getElementById("TotalCompra").value = totalCompra.toFixed(2);
+            }
+
+            document.getElementById("Precio").addEventListener("input", updateTotal);
+            document.getElementById("Cantidad").addEventListener("input", updateTotal);
+        });
+
+        function check(e) {
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla == 8) {
+                return true;
+            }
+
+            // Patrón de entrada, en este caso solo acepta numeros y letras
+            patron = /[A-Za-z]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
+        }
+
+        function precio(p) {
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla == 8) {
+                return true;
+            }
+
+            // Patrón de entrada, en este caso solo acepta numeros y letras
+            patron = /[0-9]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
+        }
+    </script>
+}

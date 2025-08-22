@@ -1,0 +1,150 @@
+﻿@model ServicioWebApiUser.Models.Producto
+
+@{
+    ViewData["Title"] = "AgregarProducto";
+}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="~/css/RegistrarProducto.css" rel="stylesheet"/>
+<h1 style="color:darkblue;font-size: 50px;">Registrar Producto</h1>
+<hr />
+
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-controller="OrdenPedidoes" asp-action="AgregarPedidoVenta">
+        <button class="styled-button volver-button">
+            <div class="text">
+                <span>Volver</span>
+                <span>Registro</span>
+                <span>Pedido</span>
+            </div>
+            <div class="clone">
+                <span>Volver</span>
+                <span>Registro</span>
+                <span>Pedido</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+<div asp-validation-summary="All" class="text-danger"></div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarProducto">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreProducto" class="control-label"></label>
+                <input asp-for="NombreProducto" class="form-control" onkeypress="return check(event)" />
+                <span asp-validation-for="NombreProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoProducto" class="control-label"></label>
+                <input asp-for="CodigoProducto" class="form-control" />
+                <span asp-validation-for="CodigoProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioProducto" class="control-label"></label>
+                <input type="number" asp-for="PrecioProducto" class="form-control" min="1"/>
+                <span asp-validation-for="PrecioProducto" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group btn btn-primary" style="margin:5px">
+                <button class="styled-button register-button" onclick="registro()">
+                    <div class="text">
+                        <span>Registrar</span>
+                        <span>Producto</span>
+                    </div>
+                    <div class="clone">
+                        <span>Registrar</span>
+                        <span>Producto</span>
+                    </div>
+                    <svg stroke-width="2"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         class="h-6 w-6"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="20px">
+                        <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                              stroke-linejoin="round"
+                              stroke-linecap="round"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-action="Index" class="button-link">
+        <button class="styled-button return-button">
+            <div class="text">
+                <span>Regresar</span>
+                <span>al</span>
+                <span>Listado</span>
+            </div>
+            <div class="clone">
+                <span>Regresar</span>
+                <span>al</span>
+                <span>Listado</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function registro() {
+            Swal.fire({
+                title: "Estas seguro de guardar los datos del producto",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Guardar"
+            }).then(result => {
+                if (result.isConfirmed) {
+                    $('#frmregistrar').method = "post";
+                    $('#frmregistrar').submit();
+                    Swal.fire("Los datos no han sido guardados", "", "info");
+                } else if (result.isDenied) {
+                    Swal.fire("Los cambios no han sido guardados", "", "info");
+                }
+            });
+        }
+
+        function check(e) {
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla == 8) {
+                return true;
+            }
+
+            // Patrón de entrada, en este caso solo acepta numeros y letras
+            patron = /[A-Za-z]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
+        }
+    </script>
+}

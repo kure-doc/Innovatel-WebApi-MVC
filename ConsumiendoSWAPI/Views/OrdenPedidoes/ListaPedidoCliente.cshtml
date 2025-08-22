@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ConsumiendoSWAPI.DTOS.dtoListadoPeddosPorCodCliente>
+<h1 style="color:darkblue;font-size: 50px;">Listado de Pedidos por Cliente con Código @ViewBag.codigo </h1>
+<link href="~/css/RegistrarCliente.css" rel="stylesheet" />
+
+<hr />
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-action="Index" class="button-link">
+        <button class="styled-button return-button">
+            <div class="text">
+                <span>Regresar</span>
+                <span>al</span>
+                <span>Listado</span>
+            </div>
+            <div class="clone">
+                <span>Regresar</span>
+                <span>al</span>
+                <span>Listado</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+<br />
+<hr />
+<br />
+<table class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse;">
+    <thead class="bg-primary text-white fw-bold">
+        <tr>
+            <th>Id Pedido</th>
+            <th>Id Cliente</th>
+            <th>Id Producto</th>
+            <th>Fecha Pedido</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Total Descuento</th>
+        </tr>
+    </thead>
+    <tbody style="background:#FFFFFF;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdPedido</td>
+                <td>@item.IdCliente</td>
+                <td>@item.IdProducto</td>
+                <td>@item.FechaPedido</td>
+                <td>@item.Cantidad</td>
+                <td>S/. @item.Precio</td>
+                <td>S/. @item.TotalDescuento</td>
+            </tr>
+        }
+    </tbody>
+</table>

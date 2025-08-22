@@ -1,0 +1,100 @@
+﻿@model IEnumerable<ServicioWebApiUser.DTOS.dtoPedidosporMes>
+
+<h1 style="color:darkblue;font-size: 50px;">Reporte de Ventas Mensuales</h1>
+<br />
+<form asp-action="ConsultaMesdeVenta" id="form-consulta">
+    <p>Seleccione un Mes de Venta</p>
+    <select name="nromes" id="select-mes" asp-items="ViewBag.mesesdeventa">
+        <option value="">Seleccione</option>
+    </select>
+    <input type="submit" value="Consultar" />
+</form>
+<br />
+<button class="button" id="exportar-excel">
+    <span class="button-content">Exportar a Excel</span>
+</button>
+
+<br />
+<br />
+<table class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse;">
+    <thead class="bg-primary text-white fw-bold">
+        <tr>
+            <td>Id Pedido</td>
+            <td>Id Cliente</td>
+            <td>Id Producto</td>
+            <td>Nombre del Mes</td>
+            <td>Metodo de Pago</td>
+            <td>Cantidad</td>
+            <td>Precio</td>
+            <td>Total Descuento</td>
+            <td>Estado del Pedido</td>
+        </tr>
+    </thead>
+    <tbody style="background:#FFFFFF;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdPedido</td>
+                <td>@item.IdCliente</td>
+                <td>@item.IdProducto</td>
+                <td>@item.NombreMes</td>
+                <td>@item.MetodoPago</td>
+                <td>@item.Cantidad</td>
+                <td>S/. @item.Precio</td>
+                <td>S/. @item.TotalDescuento</td>
+                <td>@item.ConfirmarPedido</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    document.getElementById('exportar-excel').addEventListener('click', function () {
+        var nromes = document.getElementById('select-mes').value;
+        if (nromes) {
+            window.location.href = '@Url.Action("ExportarExcelMesVenta", "OrdenPedidoes")?nromes=' + nromes;
+        } else {
+            alert('Por favor, seleccione un mes.');
+        }
+    });
+</script>
+
+<style>
+
+    .button {
+        position: relative;
+        overflow: hidden;
+        height: 3rem;
+        padding: 0 2rem;
+        border-radius: 1.5rem;
+        background: #3d3a4e;
+        background-size: 400%;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+        .button:hover::before {
+            transform: scaleX(1);
+        }
+
+    .button-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        width: 100%;
+        height: inherit;
+        border-radius: inherit;
+        background: linear-gradient( 82.3deg, rgba(116, 198, 157, 1) 10.8%, rgba(45, 106, 79, 1) 94.3% );
+        transition: all 0.475s;
+    }
+
+</style>

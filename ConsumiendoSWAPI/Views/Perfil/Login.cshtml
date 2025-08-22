@@ -1,0 +1,29 @@
+﻿@model ServicioWebApiUser.DTOS.dtoLoginViewModel
+
+@{
+    ViewData["Title"] = "Inicio de sesión";
+}
+
+<link href="~/css/Login.css" rel="stylesheet" />
+
+<div class="form-container">
+    <p class="title">@ViewData["Title"]</p>
+    <div class="img">
+        <img src="~/Imagenes/01 version teleco... negro LOGO INOVATEL 2021.png" alt="Alternate Text"/>
+    </div>
+    <form asp-action="Login" method="post">
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label">Usuario</label>
+            <input asp-for="Nombre" class="form-control" placeholder="Usuario" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Contraseña</label>
+            <input asp-for="Contrasenia" type="password" class="form-control" placeholder="Contraseña" />
+            <span asp-validation-for="Contrasenia" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Iniciar sesión" class="btn btn-primary" />
+        </div>
+    </form>
+</div>

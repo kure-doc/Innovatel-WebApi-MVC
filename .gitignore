@@ -1,0 +1,63 @@
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlh
+*.tli
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*_i.c
+*_p.c
+*_h.h
+*.dbmdl
+*.jfm
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Entity Framework Migrations
+Migrations/
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Others
+*.cache
+*.config
+appsettings.Development.json

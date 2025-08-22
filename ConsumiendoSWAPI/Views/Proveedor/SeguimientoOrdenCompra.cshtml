@@ -1,0 +1,84 @@
+﻿@model IEnumerable<ServicioWebApiUser.DTOS.dtoSeguimientoOrdenCompra>
+
+<h1 style="color:darkblue;font-size: 50px;">Seguimiento de Orden Compra</h1>
+<br />
+<br />
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse;width: 110%;">
+        <thead class="bg-primary text-white fw-bold">
+            <tr>
+                <td>Id Pedido</td>
+                <td>Id Cliente</td>
+                <td>Nombre Cliente</td>
+                <td>Id Producto</td>
+                <td>Nombre Producto</td>
+                <td>Fecha Compra</td>
+                <td>Fecha Entrega</td>
+                <td>Cantidad</td>
+                <td>Total Compra</td>
+                <td>Estado de la Compra</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody style="background:#FFFFFF;">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdPedido</td>
+                    <td>@item.IdCliente</td>
+                    <td>@item.NombreCliente</td>
+                    <td>@item.IdProducto</td>
+                    <td>@item.NombreProducto</td>
+                    <td>@item.FechaPedido</td>
+                    <td>@item.FechaEntrega</td>
+                    <td>@item.Cantidad</td>
+                    <td>S/. @item.TotalDescuento</td>
+                    <td>
+                        @{
+                            var estadoClase = item.ConfirmarPedido == "Confirmado" ? "estado-confirmado" :
+                            item.ConfirmarPedido == "Rechazado" ? "estado-rechazado" :
+                            item.ConfirmarPedido == "Pendiente Confirmar" ? "estado-pendiente" : "";
+                        }
+                        <span class="@estadoClase">
+                            @Html.DisplayFor(modelItem => item.ConfirmarPedido)
+                        </span>
+                    </td>
+                    <td>
+                        @if (item.ConfirmarPedido == "Confirmado")
+                        {
+                            <button onclick="location.href='@Url.Action("DetallesPedido", "Proveedor", new { idPedido = item.IdPedido })'" class="btn btn-primary">Ver Detalles</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No se encontraron datos para mostrar.</p>
+}
+
+<style>
+    .estado-confirmado {
+        color: white;
+        background-color: green;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .estado-rechazado {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .estado-pendiente {
+        color: white;
+        background-color: orange;
+        padding: 5px;
+        border-radius: 3px;
+    }
+</style>

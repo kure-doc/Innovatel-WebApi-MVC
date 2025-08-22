@@ -1,0 +1,222 @@
+﻿@model ServicioWebApiUser.Models.OrdenPedido
+
+@{
+    ViewData["Title"] = "Agregar Pedido Venta";
+}
+<link href="~/css/PedidoVenta.css" rel="stylesheet" />
+
+<h1 style="color:darkblue;font-size: 50px;">Agregar Pedido Venta</h1>
+<br />
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-controller="Cliente" asp-action="BuscarCliente" class="button-link">
+        <button class="styled-button buscar-button">
+            <div class="text">
+                <span>Buscar</span>
+                <span>Cliente</span>
+            </div>
+            <div class="clone">
+                <span>Buscar</span>
+                <span>Cliente</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-controller="Producto" asp-action="AgregarProducto" class="button-link">
+        <button class="styled-button registrar-button">
+            <div class="text">
+                <span>Agregar</span>
+                <span>Producto</span>
+            </div>
+            <div class="clone">
+                <span>Agregar</span>
+                <span>Producto</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarPedidoVenta" method="post" id="pedidoForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdCliente" class="control-label"></label>
+                <select asp-for="IdCliente" class="form-control" asp-items="ViewBag.cliente">
+                    <option value="">Seleccionar</option>
+                </select>
+                <span asp-validation-for="IdCliente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdProducto" class="control-label"></label>
+                <select asp-for="IdProducto" class="form-control" id="IdProducto">
+                    <option value="">Seleccionar</option>
+                    @foreach (var producto in (IEnumerable<dynamic>)ViewBag.Productos)
+                    {
+                        <option value="@producto.IdProducto" data-precio="@producto.PrecioProducto">@producto.NombreProducto</option>
+                    }
+                </select>
+                <span asp-validation-for="IdProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaPedido" class="control-label"></label>
+                <input asp-for="FechaPedido" id="FechaPedido" type="datetime" class="form-control" disabled />
+                <span asp-validation-for="FechaPedido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MetodoPago" class="control-label"></label>
+                <select asp-for="MetodoPago" class="form-control" id="comboTarjeta">
+                    <option value="">Seleccionar</option>
+                    <option value="Tarjeta">Tarjeta</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+                <span asp-validation-for="MetodoPago" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input asp-for="Cantidad" class="form-control" id="Cantidad" min="1"/>
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label"></label>
+                <input asp-for="Precio" class="form-control" id="Precio" readonly />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalDescuento" class="control-label"></label>
+                <input asp-for="TotalDescuento" class="form-control" id="TotalDescuento" readonly />
+                <span asp-validation-for="TotalDescuento" class="text-danger"></span>
+            </div>
+            <input asp-for="ConfirmarPedido" type="hidden" id="ConfirmarPedido" value="Pendiente Confirmar" />
+            <div class="form-group">
+                <p>Aplicar Descuento</p>
+                <div>
+                    <input id="remember" type="checkbox" class="ui-checkbox" onclick="calcularDescuento()" disabled>
+                    <span>Se aplicará un descuento del 10% si se utiliza tarjeta</span>
+                </div>
+                
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Confirmar Pedido" class="btn btn-primary" />
+                <input type="button" value="Limpiar" class="btn btn-primary" onclick="Cancelar()" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<p class="btn btn-primary" style="margin:0px">
+    <a asp-action="Index" class="button-link">
+        <button class="styled-button historial-button">
+            <div class="text">
+                <span>Historial</span>
+                <span>de</span>
+                <span>Ventas</span>
+            </div>
+            <div class="clone">
+                <span>Historial</span>
+                <span>de</span>
+                <span>Ventas</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var productoSelect = document.getElementById("IdProducto");
+        var precioInput = document.getElementById("Precio");
+        var cantidadInput = document.getElementById("Cantidad");
+        var totalDescuentoInput = document.getElementById("TotalDescuento");
+        var rememberCheckbox = document.getElementById("remember");
+        var metodoPagoSelect = document.getElementById("comboTarjeta");
+
+        // Cargar productos desde ViewBag en formato JSON
+        var productos = @Html.Raw(ViewBag.ProductosJson);
+
+        var today = new Date();
+        var day = String(today.getDate()).padStart(2, '0');
+        var month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var year = today.getFullYear();
+
+        var currentDate = day + '/' + month + '/' + year;
+        document.getElementById("FechaPedido").value = currentDate;
+
+        productoSelect.addEventListener("change", function () {
+            var selectedId = productoSelect.value;
+            var selectedProducto = productos.find(p => p.IdProducto == selectedId); // Usa el nombre correcto de la propiedad
+            var precio = selectedProducto ? selectedProducto.PrecioProducto : "";
+            precioInput.value = precio ? parseFloat(precio).toFixed(2) : "";
+            calcularDescuento(); // Recalcular cuando se cambia el producto
+        });
+
+        metodoPagoSelect.addEventListener("change", function () {
+            var valortarjeta = metodoPagoSelect.value;
+            rememberCheckbox.checked = valortarjeta === "Tarjeta";
+            calcularDescuento();
+        });
+
+        function calcularDescuento() {
+            var precio = parseFloat(precioInput.value) || 0;
+            var cantidad = parseInt(cantidadInput.value) || 0;
+            var comboBox = document.getElementById("comboTarjeta");
+            var valortarjeta = comboBox.value;
+            var descuento = 0;
+            var igv = 0.18 ; // 18% IGV
+
+            if (valortarjeta === "Tarjeta" && rememberCheckbox.checked) {
+                descuento = 0.10; // 10% descuento
+            }
+
+
+            var subtotal = precio * cantidad;
+            var descuentoTotal = subtotal * descuento;
+            var subtotalConDescuento = subtotal - descuentoTotal;
+            var totalConIGV = subtotalConDescuento * (1 + igv);
+
+            totalDescuentoInput.value = totalConIGV.toFixed(2); // Mostrar el total con descuento e IGV
+        }
+
+        // Añadir event listeners para recalcular el descuento
+        rememberCheckbox.addEventListener("change", calcularDescuento);
+        //metodoPagoSelect.addEventListener("change", calcularDescuento);
+        cantidadInput.addEventListener("input", calcularDescuento);
+        precioInput.addEventListener("input", calcularDescuento);
+    });
+
+    function Cancelar() {
+        location.reload();
+    }
+</script>

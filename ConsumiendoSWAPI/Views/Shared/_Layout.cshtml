@@ -1,0 +1,103 @@
+﻿@{
+    // Determinar si estamos en la página de inicio de sesión
+    var isLoginPage = ViewContext.RouteData.Values["action"].ToString().Equals("Login", StringComparison.OrdinalIgnoreCase) &&
+                       ViewContext.RouteData.Values["controller"].ToString().Equals("Perfil", StringComparison.OrdinalIgnoreCase);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INNOVATEL</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ConsumiendoSWAPI.styles.css" asp-append-version="true" />
+    <link rel="website icon" type="png" href="~/Imagenes/01 version teleco... negro LOGO INOVATEL 2021.png" />
+    <style>
+        body{
+            background: rgb(25,234,242);
+            background: radial-gradient(circle, rgba(25,234,242,1) 0%, rgba(103,195,255,1) 51%, rgba(0,165,255,1) 100%);
+        }
+
+        footer {
+            background: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    @if (!isLoginPage)
+    {
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">INNOVATEL</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Lista de Clientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="Index">Lista de Productos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="OrdenPedidoes" asp-action="AgregarPedidoVenta">Agregar Pedido Venta</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="OrdenCompras" asp-action="AgregarOrdenCompra">Solicitar Orden de Compra</a>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Proveedor" asp-action="Index">Inicio</a>
+                                </li>
+                            </ul>
+                        }
+                    <div class="d-flex align-items-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form asp-controller="Perfil" asp-action="Logout" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+                <div>
+                    <img style="width:65px; height:70px" src="~/Imagenes/01 version teleco... negro LOGO INOVATEL 2021.png" alt="Alternate Text" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    }
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - INNOVATEL - <a asp-area=""><img src="~/Imagenes/01 version teleco... negro LOGO INOVATEL 2021.png" alt="Alternate Text" style="width: 5%;" /></a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+

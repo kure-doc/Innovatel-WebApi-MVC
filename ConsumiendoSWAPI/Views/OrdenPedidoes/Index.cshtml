@@ -1,0 +1,240 @@
+﻿@model IEnumerable<ServicioWebApiUser.Models.OrdenPedido>
+
+@{
+    ViewData["Title"] = "Venta de Pedidos de Clientes";
+}
+<link href="~/css/HistorialCompra.css" rel="stylesheet" />
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<h1 style="color:darkblue;font-size: 50px;">Historial de Ventas</h1>
+    <p class="btn btn-primary" style="margin:5px">
+    <a asp-action="AgregarPedidoVenta" class="button-link">
+            <button class="styled-button register-button">
+                <div class="text">
+                    <span>Solicitar</span>
+                    <span>Nueva</span>
+                    <span>Venta</span>
+                </div>
+                <div class="clone">
+                    <span>Solicitar</span>
+                    <span>Nueva</span>
+                    <span>Venta</span>
+                </div>
+                <svg stroke-width="2"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="20px">
+                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+            </button>
+        </a>
+    </p>
+<br />
+<br />
+<a asp-action="ExportarExcel">
+    <button class="button">
+        <span class="button-content">Exportar a Excel </span>
+    </button>
+</a>
+<br />
+<br />
+<table class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse; margin-bottom:4rem; width: 110%;">
+    <thead class="bg-primary text-white fw-bold">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.IdPedido)</th>
+            <th>@Html.DisplayNameFor(model => model.IdCliente)</th>
+            <th>@Html.DisplayNameFor(model => model.IdProducto)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaPedido)</th>
+            <th>@Html.DisplayNameFor(model => model.MetodoPago)</th>
+            <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
+            <th>@Html.DisplayNameFor(model => model.Precio)</th>
+            <th>@Html.DisplayNameFor(model => model.TotalDescuento)</th>
+            <th>@Html.DisplayNameFor(model => model.ConfirmarPedido)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody style="background:#FFFFFF;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.IdPedido)</td>
+                <td><a asp-action="ListaPedidoCliente" asp-route-codcli="@item.IdCliente">@Html.DisplayFor(modelItem => item.IdCliente)</a></td>
+                <td>@Html.DisplayFor(modelItem => item.IdProducto)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaPedido)</td>
+                <td>@Html.DisplayFor(modelItem => item.MetodoPago)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                <td>S/. @Html.DisplayFor(modelItem => item.Precio)</td>
+                <td>S/. @Html.DisplayFor(modelItem => item.TotalDescuento)</td>
+                <td>
+                    @{
+                        var estadoClase = item.ConfirmarPedido == "Confirmado" ? "estado-confirmado" :
+                        item.ConfirmarPedido == "Rechazado" ? "estado-rechazado" :
+                        item.ConfirmarPedido == "Pendiente Confirmar" ? "estado-pendiente" :
+                        item.ConfirmarPedido == "Compra Realizada" ? "compra-realizada" :
+                        item.ConfirmarPedido == "Compra Rechazada" ? "compra-rechazada" : "";
+                    }
+                    <span class="@estadoClase">@Html.DisplayFor(modelItem => item.ConfirmarPedido)</span>
+                </td>
+                <td>
+                    @if (item.ConfirmarPedido == "Pendiente Confirmar")
+                    {
+                        <button class="btn btn-outline-secondary" onclick="showConfirmationModal('@item.IdPedido')">Confirmación</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<input id="idPedidoDet" hidden value=""/>
+<input id="estadoPedidoDet" hidden value="" />
+
+<!-- Modal de confirmación -->
+<div class="modal" tabindex="-1" role="dialog" id="confirmationModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Pedido</h5>
+            </div>
+            <div class="modal-body">
+                <p>Elija una opción para confirmar el pedido:</p>
+                <select id="orderStatus" class="form-control">
+                    @* <option value="">Seleccionar: </option> *@
+                    <option value="Confirmado">Confirmar</option>
+                    <option value="Rechazado">Rechazar</option>
+@*                     <option value="Cancelado">Cancelar</option>
+ *@                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="updateOrderStatus()">Aceptar</button>
+                <button class="btn btn-secondary" data-dismiss="modal" onclick="cerrarStatus()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // let currentOrderId;
+
+    // function showConfirmationModal(orderId) {
+    //     document.getElementById('#idPedidoDet').value = "";
+    //     document.getElementById('#idPedidoDet').value = orderId;
+    //     currentOrderId = orderId;
+    //     $('#confirmationModal').modal('show');
+    // }
+
+    // function updateOrderStatus() {
+    //     const status = $('#orderStatus').val();
+
+    // }
+
+    function cerrarStatus(){
+        $('#confirmationModal').modal('hide');
+    }
+
+    let currentOrderId;
+
+    function showConfirmationModal(orderId) {
+        currentOrderId = orderId;
+        $('#idPedidoDet').val(orderId);
+        $('#confirmationModal').modal('show');
+    }
+
+    async function updateOrderStatus() {
+        const status = $('#orderStatus').val();
+        const orderId = $('#idPedidoDet').val();
+
+        const data = {
+            idPedido: orderId,
+            confirmarPedido: status
+        };
+
+        try {
+            const response = await fetch('/OrdenPedidoes/ActualizarPedido', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                $('#confirmationModal').modal('hide');
+                location.reload(); // Recargar la página para reflejar los cambios
+            } else {
+                console.error('Error al actualizar el estado del pedido');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
+    }
+</script>
+
+
+<style>
+    .estado-confirmado {
+        color: white;
+        background-color: green;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .estado-rechazado {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .compra-realizada {
+        color: white;
+        background-color: orange;
+        padding: 6px;
+        border-radius: 3px;
+    }
+
+    .button {
+        position: relative;
+        overflow: hidden;
+        height: 3rem;
+        padding: 0 2rem;
+        border-radius: 1.5rem;
+        background: #3d3a4e;
+        background-size: 400%;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+        .button:hover::before {
+            transform: scaleX(1);
+        }
+
+    .button-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        width: 100%;
+        height: inherit;
+        border-radius: inherit;
+        background: linear-gradient( 82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3% );
+        transition: all 0.475s;
+    }
+
+</style>

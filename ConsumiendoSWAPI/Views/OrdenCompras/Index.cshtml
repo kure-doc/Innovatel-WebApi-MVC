@@ -1,0 +1,107 @@
+﻿@model IEnumerable<ServicioWebApiUser.Models.OrdenCompra>
+
+@{
+    ViewData["Title"] = "Index";
+    var alerta = TempData["Alerta"] as string;
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="~/css/HistorialCompra.css" rel="stylesheet" />
+
+<h1 style="color:darkblue;font-size: 50px;">Historial de Compras</h1>
+
+<p class="btn btn-primary" style="margin:5px">
+    <a asp-action="AgregarOrdenCompra" class="button-link">
+        <button class="styled-button register-button">
+            <div class="text">
+                <span>Solicitar</span>
+                <span>Nueva</span>
+                <span>Compra</span>
+            </div>
+            <div class="clone">
+                <span>Solicitar</span>
+                <span>Nueva</span>
+                <span>Compra</span>
+            </div>
+            <svg stroke-width="2"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20px">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </a>
+</p>
+<br />
+
+@if (!string.IsNullOrEmpty(alerta))
+{
+    <div class="alert alert-warning" role="alert">
+        @alerta
+    </div>
+}
+<br />
+<table id="tabla" class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse; margin-bottom:4rem;">
+    <thead class="bg-primary text-white fw-bold">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.IdOrdenCompra)</th>
+            <th>@Html.DisplayNameFor(model => model.NroCompra)</th>
+            <th>@Html.DisplayNameFor(model => model.IdProducto)</th>
+            <th>@Html.DisplayNameFor(model => model.NombreProveedor)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaCompra)</th>
+            <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
+            <th>@Html.DisplayNameFor(model => model.TotalCompra)</th>
+            <th>@Html.DisplayNameFor(model => model.ConfirmarPedido)</th>
+        </tr>
+    </thead>
+    <tbody style="background:#FFFFFF;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.IdOrdenCompra)</td>
+                <td>
+                    <a asp-action="confirmacionCompra" asp-route-id="@item.IdOrdenCompra">
+                        @Html.DisplayFor(modelItem => item.NroCompra)
+                    </a>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.IdProducto)</td>
+                <td>@Html.DisplayFor(modelItem => item.NombreProveedor)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaCompra)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                <td>S/. @Html.DisplayFor(modelItem => item.TotalCompra)</td>
+                <td>
+                    @{
+                        var estadoClase = item.ConfirmarPedido == "Confirmado" ? "estado-confirmado" :
+                        item.ConfirmarPedido == "Rechazado" ? "estado-rechazado" : "";
+                    }
+                    <span class="@estadoClase">
+                        @Html.DisplayFor(modelItem => item.ConfirmarPedido)
+                    </span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .estado-confirmado {
+        color: white;
+        background-color: green;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .estado-rechazado {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        border-radius: 3px;
+    }    
+</style>

@@ -1,0 +1,51 @@
+﻿@model ServicioWebApiUser.Models.OrdenCompra
+
+@{
+    ViewData["Title"] = "Confirmación de Compra";
+    var mensaje = TempData["Mensaje"] as string;
+    var alerta = TempData["Alerta"] as string;
+}
+
+<h1>Confirmación de Compra</h1>
+
+<div style="border-color:">
+    <p>@ViewBag.Mensaje</p>
+    <p><strong>NroCompra:</strong> @Model.NroCompra</p>
+    <p><strong>IdProducto:</strong> @Model.IdProducto</p>
+    <p><strong>NombreProveedor:</strong> @Model.NombreProveedor</p>
+    <p><strong>FechaCompra:</strong> @Model.FechaCompra</p>
+    <p><strong>Cantidad:</strong> @Model.Cantidad</p>
+    <p><strong>TotalCompra:</strong>  S/. @Model.TotalCompra</p>
+    <p><strong>EstadoCompra:</strong> @Model.ConfirmarPedido</p>
+</div>
+<br />
+
+<form method="post" asp-action="ActualizarCompra">
+    <input type="hidden" name="IdOrdenCompra" value="@Model.IdOrdenCompra" />
+    <input type="hidden" name="IdProducto" value="@Model.IdProducto" />
+    <input type="hidden" name="Cantidad" value="@Model.Cantidad" />
+    <div class="form-group">
+        <label for="orderStatus">Estado de Compra:</label>
+        <select id="orderStatus" name="ConfirmarPedido" class="form-control">
+            <option value="Confirmado">Confirmar</option>
+            <option value="Rechazado">Rechazar</option>
+        </select>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Aceptar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+</form>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var mensaje = '@mensaje';
+            if (mensaje === 'Confirmado') {
+                alert('El pedido ha sido confirmado.');
+            } else if (mensaje === 'Rechazado') {
+                alert('El pedido ha sido cancelado.');
+            }
+        });
+    </script>
+}

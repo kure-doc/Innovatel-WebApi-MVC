@@ -1,0 +1,226 @@
+﻿/* Asegúrate de que los estilos se apliquen solo a los botones específicos usando clases específicas */
+
+.button-link {
+    text-decoration: none; /* Remove underline from link */
+}
+
+.styled-button {
+    width: 180px;
+    height: 50px;
+    overflow: hidden;
+    border: none;
+    color: #fff;
+    background: none;
+    position: relative;
+    padding-bottom: 2em;
+    cursor: pointer;
+}
+
+    .styled-button > div,
+    .styled-button > svg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+
+    .styled-button:before {
+        content: "";
+        position: absolute;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        background: currentColor;
+        transition: transform 0.25s ease-out;
+    }
+
+    .styled-button:hover:before {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .styled-button .clone > *,
+    .styled-button .text > * {
+        opacity: 1;
+        font-size: 1.3rem;
+        transition: 0.2s;
+        margin-left: 4px;
+    }
+
+    .styled-button .clone > * {
+        transform: translateY(60px);
+    }
+
+    .styled-button:hover .clone > * {
+        opacity: 1;
+        transform: translateY(0px);
+        transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+    }
+
+    .styled-button:hover .text > * {
+        opacity: 1;
+        transform: translateY(-60px);
+        transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+    }
+
+    .styled-button:hover .clone > :nth-child(1) {
+        transition-delay: 0.15s;
+    }
+
+    .styled-button:hover .clone > :nth-child(2) {
+        transition-delay: 0.2s;
+    }
+
+    .styled-button:hover .clone > :nth-child(3) {
+        transition-delay: 0.25s;
+    }
+
+    .styled-button:hover .clone > :nth-child(4) {
+        transition-delay: 0.3s;
+    }
+
+    .styled-button svg {
+        width: 20px;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%) rotate(-50deg);
+        transition: 0.2s ease-out;
+    }
+
+    .styled-button:hover svg {
+        transform: translateY(-50%) rotate(-90deg);
+    }
+
+
+/* Estilos específicos para el botón de eliminación */
+.delete-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition-duration: .3s;
+    overflow: hidden;
+    position: relative;
+}
+
+.delete-svgIcon {
+    width: 12px;
+    transition-duration: .3s;
+}
+
+    .delete-svgIcon path {
+        fill: white;
+    }
+
+.delete-button:hover {
+    width: 140px;
+    border-radius: 50px;
+    transition-duration: .3s;
+    background-color: rgb(255, 69, 69);
+    align-items: center;
+}
+
+    .delete-button:hover .delete-svgIcon {
+        width: 50px;
+        transition-duration: .3s;
+        transform: translateY(60%);
+    }
+
+.delete-button::before {
+    position: absolute;
+    top: -20px;
+    content: "Delete";
+    color: white;
+    transition-duration: .3s;
+    font-size: 2px;
+}
+
+.delete-button:hover::before {
+    font-size: 13px;
+    opacity: 1;
+    transform: translateY(30px);
+    transition-duration: .3s;
+}
+
+/* Estilos específicos para el enlace y botón de edición */
+.edit-button-link {
+    text-decoration: none; /* Eliminar subrayado del enlace */
+    display: inline-flex; /* Asegurarse de que el botón dentro del enlace se alinee correctamente */
+}
+
+.edit-button {
+    width: 47px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none !important;
+}
+
+.edit-svgIcon {
+    width: 17px;
+    transition-duration: 0.3s;
+}
+
+    .edit-svgIcon path {
+        fill: white;
+    }
+
+.edit-button:hover {
+    width: 120px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgb(255, 69, 69);
+    align-items: center;
+}
+
+    .edit-button:hover .edit-svgIcon {
+        width: 20px;
+        transition-duration: 0.3s;
+        transform: translateY(60%);
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+
+.edit-button::before {
+    display: none;
+    content: "Edit";
+    color: white;
+    transition-duration: 0.3s;
+    font-size: 2px;
+}
+
+.edit-button:hover::before {
+    display: block;
+    padding-right: 10px;
+    font-size: 13px;
+    opacity: 1;
+    transform: translateY(0px);
+    transition-duration: 0.3s;
+}
+
+
+
+

@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Innova Tel";
+}
+
+<div class="text-center">
+    <h1 style="color:darkblue;font-size: 60px;"><strong>Bienvenido al Inicio de InnovaTel</strong></h1>
+</div>
+<br />
+<br />
+<div class="mx-auto" style="width:47rem">
+    <table class="table table-bordered table-hover" style="border: 1px solid #444; border-collapse: collapse;">
+        <thead class="bg-primary text-white fw-bold">
+            <tr class="text-center">
+                <td>Nro</td>
+                <td>Aplicaciones</td>
+            </tr>
+        </thead>
+        <tbody class="bg-light">
+            <tr>
+                <td class="text-center">1</td>
+                <td class="text-center">
+                    <a asp-controller="Cliente" asp-action="BuscarCliente"
+                       class="btn btn-outline-info w-75">Buscar Cliente</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">2</td>
+                <td class="text-center">
+                    <a asp-controller="Producto" asp-action="BuscarProducto"
+                       class="btn btn-outline-info w-75">Buscar Producto</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">3</td>
+                <td class="text-center">
+                    <a asp-controller="OrdenPedidoes" asp-action="Index"
+                       class="btn btn-outline-info w-75">Historial de Ventas</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">4</td>
+                <td class="text-center">
+                    <a asp-controller="OrdenCompras" asp-action="Index"
+                       class="btn btn-outline-info w-75">Historial de Compras</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">5</td>
+                <td class="text-center">
+                    <a asp-controller="OrdenPedidoes" asp-action="ConsultaMesdeVenta"
+                       class="btn btn-outline-info w-75">Reportes de Ventas Mensuales</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

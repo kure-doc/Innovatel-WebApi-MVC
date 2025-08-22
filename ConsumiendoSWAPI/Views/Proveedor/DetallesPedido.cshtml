@@ -1,0 +1,86 @@
+﻿@model ServicioWebApiUser.DTOS.dtoSeguimientoOrdenCompra
+
+<h2>Detalles del Pedido</h2>
+
+@if (ViewBag.AlertMessage != null)
+{
+    <script>
+        alert('@ViewBag.AlertMessage');
+    </script>
+}
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Id Pedido</dt>
+        <dd class="col-sm-10">@Model.IdPedido</dd>
+
+        <dt class="col-sm-2">Id Cliente</dt>
+        <dd class="col-sm-10">@Model.IdCliente</dd>
+
+        <dt class="col-sm-2">Nombre Cliente</dt>
+        <dd class="col-sm-10">@Model.NombreCliente</dd>
+
+        <dt class="col-sm-2">Id Producto</dt>
+        <dd class="col-sm-10">@Model.IdProducto</dd>
+
+        <dt class="col-sm-2">Nombre Producto</dt>
+        <dd class="col-sm-10">@Model.NombreProducto</dd>
+
+        <dt class="col-sm-2">Fecha Pedido</dt>
+        <dd class="col-sm-10">@Model.FechaPedido</dd>
+
+        <dt class="col-sm-2">Fecha Entrega</dt>
+        <dd class="col-sm-10">@Model.FechaEntrega</dd>
+
+        <dt class="col-sm-2">Cantidad</dt>
+        <dd class="col-sm-10">@Model.Cantidad</dd>
+
+        <dt class="col-sm-2">Total Descuento</dt>
+        <dd class="col-sm-10">@Model.TotalDescuento</dd>
+
+        <dt class="col-sm-2">Estado de la Compra</dt>
+        <dd class="col-sm-10">@Model.ConfirmarPedido</dd>
+    </dl>
+
+    <div>
+        <button class="btn btn-success" onclick="confirmarCompra(@Model.IdPedido)">Confirmar Compra</button>
+        <button class="btn btn-danger" onclick="rechazarCompra(@Model.IdPedido)">Rechazar Compra</button>
+    </div>
+
+    <br />
+
+    <a href="@Url.Action("SeguimientoOrdenCompra", "Proveedor")" class="btn btn-primary">Volver</a>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    function confirmarCompra(idPedido) {
+        $.ajax({
+            url: '@Url.Action("ConfirmarCompra", "Proveedor")',
+            type: 'POST',
+            data: { idPedido: idPedido },
+            success: function () {
+                window.location.href = '@Url.Action("SeguimientoOrdenCompra", "Proveedor")'; // Redirigir a SeguimientoOrdenCompra
+            },
+            error: function (xhr, status, error) {
+                alert('Error al confirmar la compra: ' + error);
+            }
+        });
+    }
+
+    function rechazarCompra(idPedido) {
+        $.ajax({
+            url: '@Url.Action("RechazarCompra", "Proveedor")',
+            type: 'POST',
+            data: { idPedido: idPedido },
+            success: function () {
+                window.location.href = '@Url.Action("SeguimientoOrdenCompra", "Proveedor")'; // Redirigir a SeguimientoOrdenCompra
+            },
+            error: function (xhr, status, error) {
+                alert('Error al rechazar la compra: ' + error);
+            }
+        });
+    }
+</script>
+
